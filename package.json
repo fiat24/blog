@@ -15,6 +15,7 @@
 	},
 	"dependencies": {
 		"@astrojs/mdx": "4.0.1",
+		"@astrojs/netlify": "^6.6.3",
 		"@astrojs/react": "^4.1.2",
 		"@astrojs/rss": "4.0.10",
 		"@astrojs/sitemap": "3.2.1",
@@ -26,7 +27,7 @@
 		"@types/tough-cookie": "^4.0.5",
 		"@vercel/kv": "^3.0.0",
 		"aplayer-ts": "^2.6.0",
-		"astro": "5.0.3",
+		"astro": "^5.16.9",
 		"astro-decap-cms-oauth": "^0.5.1",
 		"astro-expressive-code": "^0.38.3",
 		"astro-icon": "^1.1.4",

@@ -9,7 +9,7 @@ import webmanifest from "astro-webmanifest";
 import { defineConfig, envField } from "astro/config";
 import { expressiveCodeOptions } from "./src/site.config";
 import { siteConfig } from "./src/site.config";
-import vercel from "@astrojs/vercel";
+import netlify from "@astrojs/netlify";
 
 // Remark plugins
 import remarkDirective from "remark-directive";/* Handle ::: directives as nodes */
@@ -26,17 +26,17 @@ import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'server',
-  adapter: vercel(),
+    output: 'server',
+    adapter: netlify(),
     image: {
         domains: ["webmention.io"],
     },
     integrations: [expressiveCode(expressiveCodeOptions), icon({
-  iconDir: "public/icons", // 修改：指定自定义图标目录 name = svg文件名
-}), tailwind({
+        iconDir: "public/icons", // 修改：指定自定义图标目录 name = svg文件名
+    }), tailwind({
         applyBaseStyles: false,
         nesting: true,
-        }), sitemap(), mdx(), robotsTxt(), webmanifest({
+    }), sitemap(), mdx(), robotsTxt(), webmanifest({
         // See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
         /**
          * required
@@ -75,7 +75,7 @@ export default defineConfig({
             insertThemeColorMeta: false,
             insertManifestLink: false,
         },
-        }), decapCmsOauth(), react()],
+    }), decapCmsOauth(), react()],
     markdown: {
         rehypePlugins: [
             [
@@ -92,14 +92,14 @@ export default defineConfig({
             footnoteLabelProperties: {
                 className: [""],
             },
-      footnoteLabel: '脚注：',
+            footnoteLabel: '脚注：',
         },
     },
     // https://docs.astro.build/en/guides/prefetch/
     prefetch: {
-    defaultStrategy: 'viewport',
-    prefetchAll: true
-  },
+        defaultStrategy: 'viewport',
+        prefetchAll: true
+    },
     // ! 改为你的网站地址，不然社交图片无法加载
     site: siteConfig.url,
     vite: {
