@@ -22,12 +22,12 @@ export const siteConfig: SiteConfig = {
 	// Used to construct the meta title property found in src/components/BaseHead.astro L:11, and webmanifest name found in astro.config.ts L:42
 	title: "Faust",
 	// Used to generate deployment URLs
-	url: "https://ewww.fun",
+	url: "https://blog-zeta-one-12.vercel.app",
 };
 
 // Used to generate links in both the Header & Footer.
 export const menuLinks: { path: string; title: string }[] = [
-  // 修改：改为中文
+	// 修改：改为中文
 	{
 		path: "/",
 		title: "主页",

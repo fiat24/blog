@@ -9,7 +9,7 @@ import webmanifest from "astro-webmanifest";
 import { defineConfig, envField } from "astro/config";
 import { expressiveCodeOptions } from "./src/site.config";
 import { siteConfig } from "./src/site.config";
-import netlify from "@astrojs/netlify";
+import vercel from "@astrojs/vercel";
 
 // Remark plugins
 import remarkDirective from "remark-directive";/* Handle ::: directives as nodes */
@@ -27,7 +27,7 @@ import react from "@astrojs/react";
 // https://astro.build/config
 export default defineConfig({
     output: 'server',
-    adapter: netlify(),
+    adapter: vercel(),
     image: {
         domains: ["webmention.io"],
     },
