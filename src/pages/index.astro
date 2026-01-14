@@ -21,46 +21,45 @@ const allNotes = await getCollection("note");
 const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 ---
 
-<!-- 修改：主页 -->
 <PageLayout meta={{ title: "主页" }}>
-	<!-- 修改：注释 -->
-	<!-- <section>
-		<h1 class="title mb-6">Hello World!</h1>
-		<p class="mb-4">
-			Hi, I’m a theme for Astro, a simple starter that you can use to create your website or blog.
-			If you want to know more about how you can customise me, add more posts, and make it your own,
-			click on the GitHub icon link below and it will take you to my repo.
-		</p>
-		<SocialList />
-	</section> -->
+	<!-- Posts Section -->
 	<section aria-label="Blog post list">
-		<h2 class="title mb-6 text-xl text-accent">
-			<a href="/" class="group relative"
-				>最近文章<span class="chicken-text chicken-text--no-bg">boring as my toenails</span></a
-			>
-		</h2>
+		<div class="mb-6 flex items-center gap-4">
+			<span class="h-px flex-1 bg-border"></span>
+			<span class="font-mono text-base font-medium uppercase tracking-[0.15em] text-accent">
+				最近文章
+			</span>
+			<span class="h-px flex-1 bg-border"></span>
+		</div>
+		
 		<ul class="space-y-4" role="list">
 			{
 				allPostsByDate.map((p) => (
-					<li class="grid gap-2 sm:grid-cols-[auto_1fr]">
+					<li class="group grid gap-4 border-b border-border pb-4 last:border-0 sm:grid-cols-[auto_1fr]">
 						<PostPreview post={p} />
 					</li>
 				))
 			}
 		</ul>
-		<h2 class="mt-7 grid gap-2 text-lg sm:grid-cols-[auto_1fr]">
-			<!-- 修改：添加更多... -->
-			<a class="group relative underline-offset-4 sm:hover:underline" href="/posts/"
-				>更多...<span class="chicken-text">I don't think you want to see more</span></a
-			>
-		</h2>
+		
+		<div class="mt-8 flex justify-end">
+			<a class="group relative flex items-center gap-2 font-serif text-lg italic text-accent hover:text-accent-2 transition-colors" href="/posts/">
+				更多文章...
+				<span class="chicken-text group-hover:opacity-100 opacity-0 transition-opacity">I don't think you want to see more</span>
+			</a>
+		</div>
 	</section>
+
 	{
 		latestNotes.length > 0 && (
-			<section class="mt-16">
-				<h2 class="title mb-6 text-xl text-accent">
-					<a href="/notes/">笔记</a>
-				</h2>
+			<section class="mt-24">
+				<div class="mb-12 flex items-center gap-4">
+					<span class="h-px flex-1 bg-border"></span>
+					<span class="font-mono text-xs font-medium uppercase tracking-[0.15em] text-accent">
+						笔记
+					</span>
+					<span class="h-px flex-1 bg-border"></span>
+				</div>
 				<ul class="space-y-4" role="list">
 					{latestNotes.map((note) => (
 						<li>

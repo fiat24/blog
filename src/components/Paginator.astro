@@ -12,7 +12,7 @@ const { nextUrl, prevUrl } = Astro.props;
 {
 	(prevUrl || nextUrl) && (
 		// 修改：翻页
-		<nav class="mt-8 flex items-center gap-x-4 font-bold text-red-700">
+		<nav class="mt-8 flex items-center gap-x-4 font-bold text-accent">
 			{prevUrl && (
 				<a
 					class="me-auto py-2 underline-offset-2 sm:hover:underline"

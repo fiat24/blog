@@ -36,18 +36,21 @@ export default {
 	],
 	theme: {
 		extend: {
-      	colors: {
+			colors: {
 				accent: "hsl(var(--theme-accent) / <alpha-value>)",
 				"accent-2": "hsl(var(--theme-accent-2) / <alpha-value>)",
 				bgColor: "hsl(var(--theme-bg) / <alpha-value>)",
 				link: "hsl(var(--theme-link) / <alpha-value>)",
 				quote: "hsl(var(--theme-quote) / <alpha-value>)",
 				textColor: "hsl(var(--theme-text) / <alpha-value>)",
+				muted: "hsl(var(--theme-muted) / <alpha-value>)",
+				border: "hsl(var(--theme-border) / <alpha-value>)",
 			},
 			fontFamily: {
 				// Add any custom fonts here
-				sans: [...fontFamily.sans],
-				serif: [...fontFamily.serif],
+				sans: ["Source Sans 3", ...fontFamily.sans],
+				serif: ["Playfair Display", ...fontFamily.serif],
+				mono: ["IBM Plex Mono", ...fontFamily.mono],
 			},
 			transitionProperty: {
 				height: "height",
