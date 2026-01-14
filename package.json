@@ -5,7 +5,7 @@
 		"dev": "astro dev",
 		"start": "astro dev",
 		"build": "astro build",
-		"postbuild": "if [ -d dist/client ]; then pagefind --site dist/client --output-path dist/client/pagefind || true; else echo 'Skipping pagefind'; fi",
+		"postbuild": "if [ -d dist ]; then pagefind --site dist --output-path dist/pagefind || true; else echo 'Skipping pagefind'; fi",
 		"preview": "astro preview",
 		"lint": "biome lint .",
 		"format": "pnpm run format:code && pnpm run format:imports",
