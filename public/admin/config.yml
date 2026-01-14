@@ -3,7 +3,7 @@ backend:
   branch: main # change this to your branch
   repo: fiat24/blog # 1、change this to your repo
   site_domain: blog-zeta-one-12.vercel.app # 2、change this to your domain
-  base_url: https://blog-zeta-one-12.vercel.app/ # 3、change this to your prod URL
+  base_url: https://blog-zeta-one-12.vercel.app # 3、change this to your prod URL
   auth_endpoint: oauth # the oauth route provided by the integration
 
 collections:
