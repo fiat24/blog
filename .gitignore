@@ -23,4 +23,4 @@ pnpm-debug.log*
 *.pem
 .cache
 .astro
-astro-netease-player-main
+astro-netease-player-main.vercel

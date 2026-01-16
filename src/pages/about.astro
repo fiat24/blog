@@ -1,6 +1,7 @@
 ---
 import PageLayout from "@/layouts/Base.astro";
 import SocialList from "@/components/SocialList.astro";
+import FriendList from "@/components/FriendList.astro";
 export const prerender = true;
 
 const meta = {
@@ -28,28 +29,11 @@ const meta = {
 			
 			<div class="not-prose my-8 h-px w-full bg-border/50"></div>
 
-			<div class="space-y-6">
-				<h3 class="font-mono text-sm font-medium uppercase tracking-[0.15em] text-accent">
-					Made up
+			<div class="space-y-3">
+				<h3 class="font-mono text-xs font-medium uppercase tracking-[0.15em] text-accent">
+					Friend Links
 				</h3>
-				<ul class="not-prose space-y-3">
-					<li class="flex items-center gap-3 text-muted-foreground">
-						<span class="h-px w-6 bg-border group-hover:bg-accent transition-colors"></span>
-						Music
-					</li>
-					<li class="flex items-center gap-3 text-muted-foreground">
-						<span class="h-px w-6 bg-border group-hover:bg-accent transition-colors"></span>
-						Movies
-					</li>
-					<li class="flex items-center gap-3 text-muted-foreground">
-						<span class="h-px w-6 bg-border group-hover:bg-accent transition-colors"></span>
-						Masturbation
-					</li>
-					<li class="flex items-center gap-3 text-muted-foreground">
-						<span class="h-px w-6 bg-border group-hover:bg-accent transition-colors"></span>
-						Majority element
-					</li>
-				</ul>
+				<FriendList />
 			</div>
 		</div>
 
@@ -58,18 +42,33 @@ const meta = {
 				<h3 class="mb-2 font-mono text-xs font-medium uppercase tracking-[0.15em] text-accent">
 					Connect
 				</h3>
-				<div class="p-4 border border-border bg-white/50 rounded-lg">
+				<div class="p-4 border border-border bg-white/50 dark:bg-transparent rounded-lg">
 					<SocialList mode="social" />
 				</div>
 			</div>
 
 			<div class="space-y-2">
 				<h3 class="mb-2 font-mono text-xs font-medium uppercase tracking-[0.15em] text-accent">
-					Friend Links
+					Made up
 				</h3>
-				<div class="p-4 border border-border bg-white/50 rounded-lg">
-					<SocialList mode="friend" />
-				</div>
+				<ul class="space-y-3">
+					<li class="flex items-center gap-3 text-muted-foreground group">
+						<span class="h-px w-6 bg-border group-hover:bg-accent transition-colors"></span>
+						<span class="group-hover:text-accent transition-colors">Music</span>
+					</li>
+					<li class="flex items-center gap-3 text-muted-foreground group">
+						<span class="h-px w-6 bg-border group-hover:bg-accent transition-colors"></span>
+						<span class="group-hover:text-accent transition-colors">Movies</span>
+					</li>
+					<li class="flex items-center gap-3 text-muted-foreground group">
+						<span class="h-px w-6 bg-border group-hover:bg-accent transition-colors"></span>
+						<span class="group-hover:text-accent transition-colors">Masturbation</span>
+					</li>
+					<li class="flex items-center gap-3 text-muted-foreground group">
+						<span class="h-px w-6 bg-border group-hover:bg-accent transition-colors"></span>
+						<span class="group-hover:text-accent transition-colors">Majority element</span>
+					</li>
+				</ul>
 			</div>
 			
 			<div class="relative pl-6">
@@ -78,6 +77,10 @@ const meta = {
 					"Two souls, alas, are dwelling in my breast."
 				</blockquote>
 			</div>
+			
+			<p class="text-xs text-muted-foreground/80 leading-relaxed">
+				如需添加友链，欢迎在 GitHub 提交 <a href="https://github.com/fiat24/astroblog/blob/main/src/data/friendLinks.json" class="cactus-link" target="_blank" rel="noopener noreferrer">Pull Request</a>，或通过 <a href="mailto:faust@linux.do" class="cactus-link">Email</a> / <a href="https://t.me/vimnd" class="cactus-link" target="_blank" rel="noopener noreferrer">Telegram</a> 联系我。
+			</p>
 		</aside>
 	</div>
 </PageLayout>
