@@ -24,3 +24,7 @@ pnpm-debug.log*
 .cache
 .astro
 astro-netease-player-main.vercel
+
+.vercel/
+.kilocode/
+.vscode/
