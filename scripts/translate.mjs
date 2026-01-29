@@ -6,6 +6,7 @@
 import { readFile, writeFile, mkdir, readdir, stat } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import matter from "gray-matter";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = join(__dirname, "..");
@@ -33,47 +34,6 @@ function hashContent(content) {
         hash = hash & hash;
     }
     return Math.abs(hash).toString(36);
-}
-
-// 简单的 frontmatter 解析
-function parseFrontmatter(content) {
-    const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-    if (!match) return { frontmatter: {}, body: content, raw: "" };
-
-    const frontmatterStr = match[1];
-    const body = match[2];
-
-    const frontmatter = {};
-    const lines = frontmatterStr.split("\n");
-
-    for (const line of lines) {
-        const colonIndex = line.indexOf(":");
-        if (colonIndex > 0) {
-            const key = line.slice(0, colonIndex).trim();
-            let value = line.slice(colonIndex + 1).trim();
-            if ((value.startsWith('"') && value.endsWith('"')) ||
-                (value.startsWith("'") && value.endsWith("'"))) {
-                value = value.slice(1, -1);
-            }
-            frontmatter[key] = value;
-        }
-    }
-
-    return { frontmatter, body, raw: frontmatterStr };
-}
-
-// 重建 frontmatter
-function stringifyFrontmatter(frontmatter, content) {
-    let fm = "---\n";
-    for (const [key, value] of Object.entries(frontmatter)) {
-        if (typeof value === "string" && (value.includes(":") || value.includes("#") || value.includes('"'))) {
-            fm += `${key}: "${value.replace(/"/g, '\\"')}"\n`;
-        } else {
-            fm += `${key}: ${value}\n`;
-        }
-    }
-    fm += "---\n";
-    return fm + content;
 }
 
 // 使用 DeepLX 翻译文本（支持重试和 key 轮询）
@@ -150,6 +110,7 @@ async function translateDirectory(sourceDir, outputDir, keyManager) {
         try {
             const existing = await readFile(outPath, "utf-8");
             const existingHash = existing.match(/<!-- hash: (\w+) -->/)?.[1];
+            // 如果已有缓存且内容一致，跳过
             if (existingHash === contentHash) {
                 console.log(`Skip (cached): ${file}`);
                 continue;
@@ -160,57 +121,57 @@ async function translateDirectory(sourceDir, outputDir, keyManager) {
 
         console.log(`Translating: ${file}`);
 
-        const { frontmatter, body } = parseFrontmatter(content);
+        try {
+            // 使用 gray-matter 解析
+            const parsed = matter(content);
+            const { data: frontmatter, content: body } = parsed;
 
-        // 翻译内容（分段翻译以避免文本过长）
-        const paragraphs = body.split(/\n\n+/);
-        const translatedParagraphs = [];
+            // 翻译内容
+            const paragraphs = body.split(/\n\n+/);
+            const translatedParagraphs = [];
 
-        for (const para of paragraphs) {
-            if (para.trim().length === 0) {
-                translatedParagraphs.push("");
-                continue;
+            for (const para of paragraphs) {
+                if (para.trim().length === 0) {
+                    translatedParagraphs.push("");
+                    continue;
+                }
+                if (para.startsWith("```") || para.startsWith("    ") || para.startsWith("<")) {
+                    translatedParagraphs.push(para);
+                    continue;
+                }
+
+                const translated = await translateText(para, keyManager);
+                translatedParagraphs.push(translated || para);
+                await new Promise(r => setTimeout(r, 300));
             }
-            // 跳过代码块
-            if (para.startsWith("```") || para.startsWith("    ")) {
-                translatedParagraphs.push(para);
-                continue;
+
+            const translatedBody = translatedParagraphs.join("\n\n");
+
+            // 翻译标题和描述
+            if (frontmatter.title) {
+                const translatedTitle = await translateText(frontmatter.title, keyManager);
+                if (translatedTitle) frontmatter.title = translatedTitle.replace(/\n/g, " ").trim();
+                await new Promise(r => setTimeout(r, 300));
             }
 
-            const translated = await translateText(para, keyManager);
-            translatedParagraphs.push(translated || para);
+            if (frontmatter.description) {
+                const translatedDesc = await translateText(frontmatter.description, keyManager);
+                if (translatedDesc) frontmatter.description = translatedDesc.replace(/\n/g, " ").trim();
+                await new Promise(r => setTimeout(r, 300));
+            }
 
-            // 延迟避免限流
-            await new Promise(r => setTimeout(r, 300));
+            // 添加哈希和提示
+            const finalContent = `<!-- hash: ${contentHash} -->\n\n> ⚠️ This article is machine-translated.\n\n${translatedBody}`;
+
+            // 使用 gray-matter 生成及保存
+            const finalFile = matter.stringify(finalContent, frontmatter);
+
+            await writeFile(outPath, finalFile);
+            console.log(`Done: ${file}`);
+
+        } catch (e) {
+            console.error(`Failed to process ${file}: ${e.message}`);
         }
-
-        const translatedBody = translatedParagraphs.join("\n\n");
-
-        // 翻译标题
-        if (frontmatter.title) {
-            const translatedTitle = await translateText(frontmatter.title, keyManager);
-            if (translatedTitle) {
-                frontmatter.title = translatedTitle.replace(/\n/g, " ").trim();
-            }
-            await new Promise(r => setTimeout(r, 300));
-        }
-
-        // 翻译描述
-        if (frontmatter.description) {
-            const translatedDesc = await translateText(frontmatter.description, keyManager);
-            if (translatedDesc) {
-                frontmatter.description = translatedDesc.replace(/\n/g, " ").trim();
-            }
-            await new Promise(r => setTimeout(r, 300));
-        }
-
-        const finalContent = stringifyFrontmatter(
-            frontmatter,
-            `<!-- hash: ${contentHash} -->\n\n> ⚠️ This article is machine-translated and may contain errors.\n\n${translatedBody}`
-        );
-
-        await writeFile(outPath, finalContent);
-        console.log(`Done: ${file}`);
     }
 }
 
