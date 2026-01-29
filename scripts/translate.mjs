@@ -126,6 +126,17 @@ async function translateDirectory(sourceDir, outputDir, keyManager) {
             const parsed = matter(content);
             const { data: frontmatter, content: body } = parsed;
 
+            // Ensure required fields exist and have correct types
+            if (!Array.isArray(frontmatter.tags)) {
+                frontmatter.tags = [];
+            }
+            if (typeof frontmatter.title !== 'string') {
+                frontmatter.title = '';
+            }
+            if (typeof frontmatter.description !== 'string') {
+                frontmatter.description = '';
+            }
+
             // 翻译内容
             const paragraphs = body.split(/\n\n+/);
             const translatedParagraphs = [];
@@ -165,7 +176,6 @@ async function translateDirectory(sourceDir, outputDir, keyManager) {
 
             // 使用 gray-matter 生成及保存
             const finalFile = matter.stringify(finalContent, frontmatter);
-
             await writeFile(outPath, finalFile);
             console.log(`Done: ${file}`);
 
