@@ -1,0 +1,149 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import Pagination from "@/components/Paginator.astro";
+import PostPreview from "@/components/blog/PostPreview.astro";
+import PageLayout from "@/layouts/Base.astro";
+import { collectionDateSort } from "@/utils/date";
+import { t } from "@/utils/i18n";
+import type { GetStaticPaths, Page } from "astro";
+import { Icon } from "astro-icon/components";
+export const prerender = true;
+
+const locale = "en";
+
+export const getStaticPaths = (async ({ paginate }) => {
+	// 辅助函数
+	function getUniqueTags(posts: CollectionEntry<"postEn">[]) {
+		const tags = posts.flatMap((post) => post.data.tags);
+		return [...new Set(tags)];
+	}
+
+	const MAX_POSTS_PER_PAGE = 12;
+	const MAX_TAGS = 7;
+	const allPosts = await getCollection("postEn", ({ data }) => !data.draft);
+	const uniqueTags = getUniqueTags(allPosts).slice(0, MAX_TAGS);
+	return paginate(allPosts.sort(collectionDateSort), {
+		pageSize: MAX_POSTS_PER_PAGE,
+		props: { uniqueTags },
+	});
+}) satisfies GetStaticPaths;
+
+function groupPostsByYear(posts: CollectionEntry<"postEn">[]) {
+	return posts.reduce((acc, post) => {
+		const year = post.data.publishDate.getFullYear().toString();
+		if (!acc[year]) acc[year] = [];
+		acc[year].push(post);
+		return acc;
+	}, {} as Record<string, CollectionEntry<"postEn">[]>);
+}
+
+
+interface Props {
+	page: Page<CollectionEntry<"postEn">>;
+	uniqueTags: string[];
+}
+
+const { page, uniqueTags } = Astro.props;
+
+const meta = {
+	description: "Bits and pieces, rivers and seas",
+	title: t(locale, "nav", "posts"),
+};
+
+const paginationProps = {
+	...(page.url.prev && {
+		prevUrl: {
+			text: "Previous",
+			url: page.url.prev,
+		},
+	}),
+	...(page.url.next && {
+		nextUrl: {
+			text: "Next",
+			url: page.url.next,
+		},
+	}),
+};
+
+const groupedByYear = groupPostsByYear(page.data);
+const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
+---
+
+<PageLayout meta={meta}>
+	<section class="mb-12">
+		<div class="mb-6 flex items-center gap-4">
+			<span class="h-px flex-1 bg-border"></span>
+			<span class="font-mono text-base font-medium uppercase tracking-[0.15em] text-accent">
+				Blog <a class="inline-block" href="/rss.xml" target="_blank" aria-label="RSS Feed">
+					<Icon aria-hidden="true" class="h-4 w-4 align-top" focusable="false" name="mdi:rss" />
+				</a>
+			</span>
+			<span class="h-px flex-1 bg-border"></span>
+		</div>
+	</section>
+	
+	{page.data.length > 0 ? (
+		<div class="grid gap-y-16 sm:grid-cols-[3fr_1fr] sm:gap-x-8">
+			<section aria-label="Blog post list">
+				{descYearKeys.map((yearKey) => (
+					<>
+						<ul class="mb-16 mt-2 space-y-4 text-start">
+							{groupedByYear[yearKey]?.map((p) => (
+								<li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
+									<PostPreview post={p} basePath="/en/posts" />
+								</li>
+							))}
+						</ul>
+					</>
+				))}
+				<Pagination {...paginationProps} />
+			</section>
+			{!!uniqueTags.length && (
+				<aside>
+					<h2 class="title mb-4 flex items-center gap-2 text-lg">
+						Tags
+						<svg
+							aria-hidden="true"
+							class="h-6 w-6"
+							fill="none"
+							stroke="currentColor"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="1.5"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path d="M0 0h24v24H0z" fill="none" stroke="none" />
+							<path d="M7.859 6h-2.834a2.025 2.025 0 0 0 -2.025 2.025v2.834c0 .537 .213 1.052 .593 1.432l6.116 6.116a2.025 2.025 0 0 0 2.864 0l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-6.117 -6.116a2.025 2.025 0 0 0 -1.431 -.593z" />
+							<path d="M17.573 18.407l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-7.117 -7.116" />
+							<path d="M6 9h-.01" />
+						</svg>
+					</h2>
+					<ul class="flex flex-wrap gap-2">
+						{uniqueTags.map((tag) => (
+							<li>
+								<a
+									aria-label={`All posts about ${tag}`}
+									class="cactus-link flex items-center justify-center"
+									href={`/en/tags/${tag}/`}
+								>
+									#{tag}
+								</a>
+							</li>
+						))}
+					</ul>
+					<span class="mt-4 block sm:text-end">
+						<a aria-label="View all blog categories" class="sm:hover:text-link" href="/en/tags/">
+							More →
+						</a>
+					</span>
+				</aside>
+			)}
+		</div>
+	) : (
+		<p class="text-muted-foreground italic">
+			No translated posts available yet. Posts will be automatically translated during the next build.
+		</p>
+	)}
+</PageLayout>

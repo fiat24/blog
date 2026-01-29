@@ -1,0 +1,36 @@
+---
+/**
+ * 语言切换组件 - 美化版
+ */
+import { getLocaleFromPath, getLocalizedPath } from "@/utils/i18n";
+
+const currentPath = Astro.url.pathname;
+const currentLocale = getLocaleFromPath(currentPath);
+const targetLocale = currentLocale === "en" ? "zh-CN" : "en";
+const targetPath = getLocalizedPath(currentPath, targetLocale);
+const isEnglish = currentLocale === "en";
+---
+
+<a
+    href={targetPath}
+    class="lang-switch group relative flex items-center gap-1.5 rounded-full border border-border bg-bgColor px-3 py-1.5 text-sm font-medium transition-all hover:border-accent hover:shadow-sm"
+    aria-label={isEnglish ? "切换到中文" : "Switch to English"}
+    title={isEnglish ? "切换到中文" : "Switch to English"}
+>
+    <span class="flex items-center gap-1">
+        <svg class="h-4 w-4 text-muted-foreground group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M2 12h20"></path>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <span class="text-muted-foreground group-hover:text-accent transition-colors">
+            {isEnglish ? "中文" : "EN"}
+        </span>
+    </span>
+</a>
+
+<style>
+    .lang-switch {
+        backdrop-filter: blur(8px);
+    }
+</style>

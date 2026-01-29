@@ -1,0 +1,75 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import Pagination from "@/components/Paginator.astro";
+import Note from "@/components/note/Note.astro";
+import PageLayout from "@/layouts/Base.astro";
+import { collectionDateSort } from "@/utils/date";
+import { t } from "@/utils/i18n";
+import type { GetStaticPaths, Page } from "astro";
+import { Icon } from "astro-icon/components";
+export const prerender = true;
+
+const locale = "en";
+
+// 获取英文笔记
+export const getStaticPaths = (async ({ paginate }) => {
+	const MAX_NOTES_PER_PAGE = 10;
+	const allNotes = await getCollection("noteEn");
+	return paginate(allNotes.sort(collectionDateSort), { pageSize: MAX_NOTES_PER_PAGE });
+}) satisfies GetStaticPaths;
+
+interface Props {
+	page: Page<CollectionEntry<"noteEn">>;
+}
+
+const { page } = Astro.props;
+
+const meta = {
+	description: "Notes",
+	title: t(locale, "nav", "notes"),
+};
+
+const paginationProps = {
+	...(page.url.prev && {
+		prevUrl: {
+			text: "← Previous",
+			url: page.url.prev,
+		},
+	}),
+	...(page.url.next && {
+		nextUrl: {
+			text: "Next →",
+			url: page.url.next,
+		},
+	}),
+};
+---
+
+<PageLayout meta={meta}>
+	<section>
+		<div class="mb-6 flex items-center gap-4">
+			<span class="h-px flex-1 bg-border"></span>
+			<span class="font-mono text-base font-medium uppercase tracking-[0.15em] text-accent">
+				Notes <a class="inline-block" href="/notes/rss.xml" target="_blank" aria-label="RSS Feed">
+					<Icon aria-hidden="true" class="h-4 w-4 align-top" focusable="false" name="mdi:rss" />
+				</a>
+			</span>
+			<span class="h-px flex-1 bg-border"></span>
+		</div>
+		
+		{page.data.length > 0 ? (
+			<ul class="mt-6 space-y-8 text-start">
+				{page.data.map((note) => (
+					<li class="">
+						<Note note={note} as="h2" isPreview />
+					</li>
+				))}
+			</ul>
+		) : (
+			<p class="text-muted-foreground italic">
+				No notes translated yet.
+			</p>
+		)}
+		<Pagination {...paginationProps} />
+	</section>
+</PageLayout>

@@ -1,0 +1,50 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import PostPreview from "@/components/blog/PostPreview.astro";
+import PageLayout from "@/layouts/Base.astro";
+import { collectionDateSort } from "@/utils/date";
+import { t } from "@/utils/i18n";
+export const prerender = true;
+
+const locale = "en";
+
+// English Posts
+const MAX_POSTS = 10;
+const allPosts = await getCollection("postEn", ({ data }) => !data.draft);
+const allPostsByDate = allPosts
+	.sort(collectionDateSort)
+	.slice(0, MAX_POSTS) as CollectionEntry<"postEn">[];
+---
+
+<PageLayout meta={{ title: t(locale, "nav", "home") }}>
+	<!-- Posts Section -->
+	<section aria-label="Blog post list">
+		<div class="mb-6 flex items-center gap-4">
+			<span class="h-px flex-1 bg-border"></span>
+			<span class="font-mono text-base font-medium uppercase tracking-[0.15em] text-accent">
+				{t(locale, "home", "recentPosts")}
+			</span>
+			<span class="h-px flex-1 bg-border"></span>
+		</div>
+		
+		{allPostsByDate.length > 0 ? (
+			<ul class="space-y-4" role="list">
+				{allPostsByDate.map((p) => (
+					<li class="group grid gap-4 border-b border-border pb-4 last:border-0 sm:grid-cols-[auto_1fr]">
+						<PostPreview post={p} basePath="/en/posts" />
+					</li>
+				))}
+			</ul>
+		) : (
+			<p class="text-muted-foreground italic">
+				No translated posts available yet. Posts will be automatically translated during the next build.
+			</p>
+		)}
+		
+		<div class="mt-8 flex justify-end">
+			<a class="group relative flex items-center gap-2 font-serif text-lg italic text-accent hover:text-accent-2 transition-colors" href="/en/posts/">
+				{t(locale, "home", "morePosts")}
+			</a>
+		</div>
+	</section>
+</PageLayout>

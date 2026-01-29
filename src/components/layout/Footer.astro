@@ -1,7 +1,11 @@
 ---
-import { menuLinks, siteConfig } from "@/site.config";
+import { siteConfig } from "@/site.config";
+import { getLocaleFromPath, getMenuLinks } from "@/utils/i18n";
 
 const year = new Date().getFullYear();
+const currentPath = Astro.url.pathname;
+const currentLocale = getLocaleFromPath(currentPath);
+const menuLinks = getMenuLinks(currentLocale);
 ---
 
 <footer
@@ -26,3 +30,4 @@ const year = new Date().getFullYear();
 		}
 	</nav>
 </footer>
+
