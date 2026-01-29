@@ -24,10 +24,6 @@ import decapCmsOauth from "astro-decap-cms-oauth";
 
 import react from "@astrojs/react";
 
-// Translation integration
-import { astroTranslate } from "./src/integrations/astro-translate";
-
-
 // https://astro.build/config
 export default defineConfig({
     output: 'server',
@@ -79,7 +75,7 @@ export default defineConfig({
             insertThemeColorMeta: false,
             insertManifestLink: false,
         },
-    }), decapCmsOauth(), react(), astroTranslate({ enabled: !!process.env.SILICONFLOW_API_KEY })],
+    }), decapCmsOauth(), react()],
     markdown: {
         rehypePlugins: [
             [
