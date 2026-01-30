@@ -4,12 +4,14 @@ import FormattedDate from "@/components/FormattedDate.astro";
 import type { HTMLTag, Polymorphic } from "astro/types";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
-	note: CollectionEntry<"note">;
+	note: CollectionEntry<"note"> | CollectionEntry<"noteEn">;
 	isPreview?: boolean | undefined;
+	locale?: "zh" | "en";
 };
 
-const { as: Tag = "div", note, isPreview = false } = Astro.props;
+const { as: Tag = "div", note, isPreview = false, locale = "zh" } = Astro.props;
 const { Content } = await render(note);
+const notePath = locale === "en" ? `/en/notes/${note.id}/` : `/notes/${note.id}/`;
 ---
 
 <article
@@ -21,7 +23,7 @@ const { Content } = await render(note);
 	<Tag class="title" class:list={{ "text-base": isPreview }}>
 		{
 			isPreview ? (
-				<a class="cactus-link" href={`/notes/${note.id}/`}>
+				<a class="cactus-link" href={notePath}>
 					{note.data.title}
 				</a>
 			) : (

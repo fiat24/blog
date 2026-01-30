@@ -122,7 +122,7 @@ async function translateDirectory(
         };
 
         const translatedContent = matter.stringify(
-            `<!-- hash: ${contentHash} -->\n\n> ⚠️ This article is machine-translated and may contain errors. Please refer to the original Chinese version if anything is unclear.\n\n${result.content}`,
+            `<!-- hash: ${contentHash} -->\n\n> This article is machine-translated and may contain errors. Please refer to the original Chinese version if anything is unclear.\n\n${result.content}`,
             translatedFrontmatter
         );
 

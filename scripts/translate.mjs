@@ -213,7 +213,7 @@ async function translateDirectory(sourceDir, outputDir, keyManager) {
             if (translatedDesc) frontmatter.description = translatedDesc.replace(/\n/g, " ").trim();
 
             // 添加哈希和提示
-            const finalContent = `<!-- hash: ${contentHash} -->\n\n> ⚠️ This article is machine-translated.\n\n${translatedBody}`;
+            const finalContent = `<!-- hash: ${contentHash} -->\n\n> This article is machine-translated.\n\n${translatedBody}`;
 
             // 使用 gray-matter 生成及保存
             const finalFile = matter.stringify(finalContent, frontmatter);
