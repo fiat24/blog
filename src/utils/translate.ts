@@ -1,12 +1,10 @@
 /**
  * 翻译工具 - 使用 DeepLX
+ * API URL 格式：https://api.deeplx.org/<api-key>/translate
  */
-
-const DEEPLX_API_URL = process.env.DEEPLX_API_URL || "http://localhost:1188/translate";
 
 export interface TranslateOptions {
     apiKey?: string;
-    apiUrl?: string;
 }
 
 export interface TranslateResult {
@@ -22,20 +20,21 @@ export async function translateText(
     text: string,
     options: TranslateOptions
 ): Promise<TranslateResult> {
-    const { apiKey, apiUrl = DEEPLX_API_URL } = options;
+    const { apiKey } = options;
+
+    if (!apiKey) {
+        return { success: false, error: "API key is required" };
+    }
+
+    // DeepLX API URL 格式：https://api.deeplx.org/<api-key>/translate
+    const apiUrl = `https://api.deeplx.org/${apiKey}/translate`;
 
     try {
-        const headers: Record<string, string> = {
-            "Content-Type": "application/json",
-        };
-
-        if (apiKey) {
-            headers["Authorization"] = `Bearer ${apiKey}`;
-        }
-
         const response = await fetch(apiUrl, {
             method: "POST",
-            headers,
+            headers: {
+                "Content-Type": "application/json",
+            },
             body: JSON.stringify({
                 text,
                 source_lang: "ZH",
@@ -53,12 +52,11 @@ export async function translateText(
 
         const data = await response.json();
 
-        // DeepLX 返回结构通常是 { code: 200, data: "translated text" } 或者直接返回结果对象
-        // 这里假设是标准的 DeepLX 接口返回
+        // DeepLX 返回结构：{ code: 200, data: "translated text" }
         const translatedContent = data.data;
 
         if (!translatedContent) {
-            return { success: false, error: "No translation content in response" };
+            return { success: false, error: `No translation content in response: ${JSON.stringify(data)}` };
         }
 
         return { success: true, content: translatedContent };
