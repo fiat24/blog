@@ -21,6 +21,7 @@ import rehypeExternalLinks from "rehype-external-links";
 import rehypeUnwrapImages from "rehype-unwrap-images";
 
 import decapCmsOauth from "astro-decap-cms-oauth";
+import { astroTranslate } from "./src/integrations/astro-translate";
 
 import react from "@astrojs/react";
 
@@ -75,7 +76,7 @@ export default defineConfig({
             insertThemeColorMeta: false,
             insertManifestLink: false,
         },
-    }), decapCmsOauth(), react()],
+    }), decapCmsOauth(), react(), astroTranslate()],
     markdown: {
         rehypePlugins: [
             [
