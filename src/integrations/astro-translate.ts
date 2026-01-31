@@ -158,7 +158,8 @@ export function astroTranslate(options: TranslateIntegrationOptions = {}): Astro
     return {
         name: "astro-translate",
         hooks: {
-            "astro:build:start": async ({ logger }) => {
+            // 使用 astro:config:done 确保在 content 同步之前就生成翻译文件
+            "astro:config:done": async ({ logger }) => {
                 if (!enabled) {
                     logger.info("Translation integration is disabled");
                     return;
