@@ -96,12 +96,12 @@ export type TranslationKey = keyof typeof translations["zh-CN"];
 export function t(locale: Locale, category: TranslationKey, key: string): string {
     const categoryObj = translations[locale]?.[category];
     if (categoryObj && typeof categoryObj === "object" && key in categoryObj) {
-        return (categoryObj as Record<string, string>)[key];
+        return (categoryObj as Record<string, string>)[key] as string;
     }
     // 回退到中文
     const fallback = translations["zh-CN"]?.[category];
     if (fallback && typeof fallback === "object" && key in fallback) {
-        return (fallback as Record<string, string>)[key];
+        return (fallback as Record<string, string>)[key] as string;
     }
     return key;
 }

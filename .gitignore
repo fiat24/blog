@@ -10,21 +10,32 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-
+*.log
 
 # environment variables
 .env
-.env.production
+.env.*
+!.env.example
+!.env.sample
 
-# macOS-specific files
+# OS-specific files
 .DS_Store
+Thumbs.db
+Desktop.ini
+.directory
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# TypeScript
+*.tsbuildinfo
 
 # misc
 *.pem
 .cache
 .astro
-astro-netease-player-main.vercel
-
 .vercel/
 .kilocode/
-.vscode/
