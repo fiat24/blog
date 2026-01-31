@@ -2,7 +2,7 @@
 import { generateToc } from "@/utils/generateToc";
 import type { MarkdownHeading } from "astro";
 import TOCHeading from "./TOCHeading.astro";
-import { getLocaleFromPath, useTranslations } from "@/utils/i18n";
+import { getLocaleFromPath, t } from "@/utils/i18n";
 
 interface Props {
 	headings: MarkdownHeading[];
@@ -10,13 +10,12 @@ interface Props {
 
 const { headings } = Astro.props;
 const locale = getLocaleFromPath(Astro.url.pathname);
-const t = useTranslations(locale);
 
 const toc = generateToc(headings);
 ---
 
 <aside class="sticky top-20 order-2 -me-32 hidden basis-64 lg:block">
-	<h2 class="title text-lg">{t("post.toc")}</h2>
+	<h2 class="title text-lg">{t(locale, "post", "toc")}</h2>
 	<ul class="mt-4 text-xs">
 		{toc.map((heading) => <TOCHeading heading={heading} />)}
 	</ul>
