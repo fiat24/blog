@@ -1,6 +1,7 @@
 /**
  * 翻译工具 - 使用 DeepLX
  * API URL 格式：https://api.deeplx.org/<api-key>/translate
+ * 支持多个 key 轮询（逗号分隔）
  */
 
 export interface TranslateOptions {
@@ -13,6 +14,22 @@ export interface TranslateResult {
     error?: string;
 }
 
+// 轮询计数器
+let keyIndex = 0;
+
+/**
+ * 从逗号分隔的 key 字符串中轮询获取下一个 key
+ */
+function getNextApiKey(apiKeyStr: string): string {
+    const keys = apiKeyStr.split(",").map(k => k.trim()).filter(k => k.length > 0);
+    if (keys.length === 0) {
+        return "";
+    }
+    const key = keys[keyIndex % keys.length];
+    keyIndex++;
+    return key;
+}
+
 /**
  * 翻译文本
  */
@@ -20,10 +37,16 @@ export async function translateText(
     text: string,
     options: TranslateOptions
 ): Promise<TranslateResult> {
-    const { apiKey } = options;
+    const { apiKey: apiKeyStr } = options;
 
-    if (!apiKey) {
+    if (!apiKeyStr) {
         return { success: false, error: "API key is required" };
+    }
+
+    // 轮询获取 key
+    const apiKey = getNextApiKey(apiKeyStr);
+    if (!apiKey) {
+        return { success: false, error: "No valid API key found" };
     }
 
     // DeepLX API URL 格式：https://api.deeplx.org/<api-key>/translate
