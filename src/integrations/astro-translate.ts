@@ -76,6 +76,11 @@ async function translateDirectory(
         try {
             const existingContent = await readFile(outputPath, "utf-8");
             const existingHash = existingContent.match(/<!-- hash: (\w+) -->/)?.[1];
+            // 跳过手动翻译的文件（hash 以 "manual" 开头）
+            if (existingHash?.startsWith("manual")) {
+                skipped++;
+                continue;
+            }
             if (existingHash === contentHash) {
                 skipped++;
                 continue;
