@@ -114,12 +114,26 @@ async function translateDirectory(
             }
         }
 
-        // 构建翻译后的文件内容
-        const translatedFrontmatter = {
+        // 构建翻译后的文件内容（过滤掉 undefined 值，否则 YAML 序列化会报错）
+        const translatedFrontmatter: Record<string, unknown> = {
             ...frontmatter,
-            title: translatedTitle,
-            description: translatedDescription,
         };
+
+        // 只有存在 title 时才覆盖
+        if (translatedTitle !== undefined) {
+            translatedFrontmatter.title = translatedTitle;
+        }
+        // 只有存在 description 时才覆盖
+        if (translatedDescription !== undefined) {
+            translatedFrontmatter.description = translatedDescription;
+        }
+
+        // 移除所有 undefined 值
+        for (const key of Object.keys(translatedFrontmatter)) {
+            if (translatedFrontmatter[key] === undefined) {
+                delete translatedFrontmatter[key];
+            }
+        }
 
         const translatedContent = matter.stringify(
             `<!-- hash: ${contentHash} -->\n\n> This article is machine-translated and may contain errors. Please refer to the original Chinese version if anything is unclear.\n\n${result.content}`,
