@@ -16,7 +16,7 @@ const notePath = locale === "en" ? `/en/notes/${note.id}/` : `/notes/${note.id}/
 
 <article
 	class:list={[
-		isPreview && "inline-grid rounded-md bg-[rgb(240,240,240)] px-4 py-3 dark:bg-[rgb(33,35,38)]",
+		isPreview && "inline-grid rounded border border-border px-4 py-3",
 	]}
 	data-pagefind-body={isPreview ? false : true}
 >
@@ -31,8 +31,8 @@ const notePath = locale === "en" ? `/en/notes/${note.id}/` : `/notes/${note.id}/
 			)
 		}
 	</Tag>
-  <!-- 修改：narrow 年月日 -->
 	<FormattedDate
+		class="font-display text-[10px] uppercase tracking-[0.2em] text-mutedFg"
 		dateTimeOptions={{
 			hour: "2-digit",
 			minute: "2-digit",

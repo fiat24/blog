@@ -20,16 +20,27 @@ const {
 <html class="scroll-smooth" lang={siteConfig.lang}>
 	<head>
 		<BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
-
-		<!-- 此处留空为<ClientRouter /> -->
 		<ClientRouter />
 	</head>
-	<!-- 修改 max-w-6xl 最大宽度-->
 	<body
-		class="mx-auto flex min-h-screen max-w-5xl flex-col bg-bgColor px-4 py-20 font-sans text-base font-normal text-textColor antialiased sm:px-12 selection:bg-accent selection:text-white"
+		class="mx-auto flex min-h-screen max-w-5xl flex-col bg-bgColor px-4 py-20 font-body text-lg font-normal text-textColor antialiased sm:px-12 leading-relaxed selection:bg-accent/30 selection:text-accent"
 	>
 		<ThemeProvider />
 		<SkipLink />
+
+		<!-- Academia texture overlay -->
+		<div class="academia-texture" aria-hidden="true">
+			<svg xmlns="http://www.w3.org/2000/svg">
+				<filter id="academia-noise">
+					<feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+				</filter>
+				<rect width="100%" height="100%" filter="url(#academia-noise)" />
+			</svg>
+		</div>
+
+		<!-- Academia vignette -->
+		<div class="academia-vignette" aria-hidden="true"></div>
+
 		<Header />
 		<main id="main">
 			<slot />

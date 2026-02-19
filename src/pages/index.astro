@@ -1,6 +1,5 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-// import SocialList from "@/components/SocialList.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import Note from "@/components/note/Note.astro";
 import { getAllPosts } from "@/data/post";
@@ -24,18 +23,19 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 <PageLayout meta={{ title: "主页" }}>
 	<!-- Posts Section -->
 	<section aria-label="Blog post list">
-		<div class="mb-6 flex items-center gap-4">
-			<span class="h-px flex-1 bg-border"></span>
-			<span class="font-mono text-base font-medium uppercase tracking-[0.15em] text-accent">
+		<!-- Ornate section header -->
+		<div class="mb-8 flex items-center gap-4">
+			<span class="ornate-divider flex-1"></span>
+			<span class="font-display text-xs font-medium uppercase tracking-[0.25em] text-accent engraved">
 				最近文章
 			</span>
-			<span class="h-px flex-1 bg-border"></span>
+			<span class="ornate-divider flex-1"></span>
 		</div>
 		
 		<ul class="space-y-4" role="list">
 			{
 				allPostsByDate.map((p) => (
-					<li class="group grid gap-4 border-b border-border pb-4 last:border-0 sm:grid-cols-[auto_1fr]">
+					<li class="group grid gap-4 border-b border-border pb-4 last:border-0 sm:grid-cols-[auto_1fr] transition-colors duration-300 hover:border-accent/30">
 						<PostPreview post={p} />
 					</li>
 				))
@@ -43,7 +43,7 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 		</ul>
 		
 		<div class="mt-8 flex justify-end">
-			<a class="group relative flex items-center gap-2 font-serif text-lg italic text-accent hover:text-accent-2 transition-colors" href="/posts/">
+			<a class="group relative flex items-center gap-2 font-heading text-lg italic text-accent transition-all duration-300 hover:text-accent-2 hover:tracking-wide" href="/posts/">
 				更多文章...
 				<span class="chicken-text group-hover:opacity-100 opacity-0 transition-opacity">I don't think you want to see more</span>
 			</a>
@@ -54,11 +54,11 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 		latestNotes.length > 0 && (
 			<section class="mt-24">
 				<div class="mb-12 flex items-center gap-4">
-					<span class="h-px flex-1 bg-border"></span>
-					<span class="font-mono text-xs font-medium uppercase tracking-[0.15em] text-accent">
+					<span class="ornate-divider flex-1"></span>
+					<span class="font-display text-xs font-medium uppercase tracking-[0.25em] text-accent engraved">
 						笔记
 					</span>
-					<span class="h-px flex-1 bg-border"></span>
+					<span class="ornate-divider flex-1"></span>
 				</div>
 				<ul class="space-y-4" role="list">
 					{latestNotes.map((note) => (

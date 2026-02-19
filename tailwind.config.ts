@@ -24,12 +24,12 @@ export default {
 			addComponents({
 				".cactus-link": {
 					"&:hover": {
-						"@apply decoration-link decoration-2": {},
+						"@apply decoration-accent decoration-2 tracking-wider": {},
 					},
-					"@apply underline underline-offset-2": {},
+					"@apply underline underline-offset-4 text-accent transition-all duration-300": {},
 				},
 				".title": {
-					"@apply text-2xl font-semibold text-accent-2": {},
+					"@apply text-2xl font-normal text-accent-2 font-heading": {},
 				},
 			});
 		}),
@@ -45,12 +45,17 @@ export default {
 				textColor: "hsl(var(--theme-text) / <alpha-value>)",
 				muted: "hsl(var(--theme-muted) / <alpha-value>)",
 				border: "hsl(var(--theme-border) / <alpha-value>)",
+				bgAlt: "var(--academia-bg-alt)",
+				mutedFg: "var(--academia-muted-fg)",
+				crimson: "var(--academia-crimson)",
+				brass: "var(--academia-brass)",
 			},
 			fontFamily: {
-				// Add any custom fonts here
-				sans: ["Source Sans 3", ...fontFamily.sans],
-				serif: ["Playfair Display", ...fontFamily.serif],
-				mono: ["IBM Plex Mono", ...fontFamily.mono],
+				heading: ['"Cormorant Garamond"', '"LXGW WenKai"', ...fontFamily.serif],
+				body: ['"Crimson Pro"', '"LXGW WenKai"', ...fontFamily.serif],
+				display: ['"Cinzel"', '"LXGW WenKai"', ...fontFamily.serif],
+				serif: ['"Crimson Pro"', '"LXGW WenKai"', ...fontFamily.serif],
+				mono: ['"IBM Plex Mono"', ...fontFamily.mono],
 			},
 			transitionProperty: {
 				height: "height",

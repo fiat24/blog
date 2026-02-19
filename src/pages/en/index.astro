@@ -19,30 +19,30 @@ const allPostsByDate = allPosts
 <PageLayout meta={{ title: t(locale, "nav", "home") }}>
 	<!-- Posts Section -->
 	<section aria-label="Blog post list">
-		<div class="mb-6 flex items-center gap-4">
-			<span class="h-px flex-1 bg-border"></span>
-			<span class="font-mono text-base font-medium uppercase tracking-[0.15em] text-accent">
+		<div class="mb-8 flex items-center gap-4">
+			<span class="ornate-divider flex-1"></span>
+			<span class="font-display text-xs font-medium uppercase tracking-[0.25em] text-accent engraved">
 				{t(locale, "home", "recentPosts")}
 			</span>
-			<span class="h-px flex-1 bg-border"></span>
+			<span class="ornate-divider flex-1"></span>
 		</div>
 		
 		{allPostsByDate.length > 0 ? (
 			<ul class="space-y-4" role="list">
 				{allPostsByDate.map((p) => (
-					<li class="group grid gap-4 border-b border-border pb-4 last:border-0 sm:grid-cols-[auto_1fr]">
+					<li class="group grid gap-4 border-b border-border/50 pb-4 last:border-0 sm:grid-cols-[auto_1fr] transition-colors duration-300 hover:border-accent/30">
 						<PostPreview post={p} basePath="/en/posts" />
 					</li>
 				))}
 			</ul>
 		) : (
-			<p class="text-muted-foreground italic">
+			<p class="font-body italic text-mutedFg">
 				No translated posts available yet. Posts will be automatically translated during the next build.
 			</p>
 		)}
 		
 		<div class="mt-8 flex justify-end">
-			<a class="group relative flex items-center gap-2 font-serif text-lg italic text-accent hover:text-accent-2 transition-colors" href="/en/posts/">
+			<a class="group relative flex items-center gap-2 font-heading text-lg italic text-accent transition-all duration-300 hover:text-accent-2 hover:tracking-wide" href="/en/posts/">
 				{t(locale, "home", "morePosts")}
 			</a>
 		</div>

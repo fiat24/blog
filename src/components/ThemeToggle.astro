@@ -1,81 +1,71 @@
 <theme-toggle class="relative ms-2 sm:ms-4">
-	<button class="relative h-9 w-9 rounded-md p-2 hover:text-accent" type="button">
-		<span class="sr-only">Dark Theme</span>
+	<button
+		class="icon-btn"
+		type="button"
+		aria-label="Toggle theme"
+	>
+		<span class="sr-only">Toggle Theme</span>
+		<!-- Sun icon (shown in light mode) -->
 		<svg
 			aria-hidden="true"
-			class="absolute start-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 scale-100 opacity-100 transition-all dark:scale-0 dark:opacity-0"
+			class="icon icon-sun scale-100 opacity-100 dark:scale-0 dark:opacity-0"
 			fill="none"
 			focusable="false"
 			id="sun-svg"
-			stroke-width="1.5"
+			stroke="currentColor"
+			stroke-width="1.25"
 			viewBox="0 0 24 24"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<path
-				d="M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18Z"
-				stroke="currentColor"
-				stroke-linecap="round"
-				stroke-linejoin="round"></path>
-			<path d="M22 12L23 12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-			></path>
-			<path d="M12 2V1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-			<path d="M12 23V22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-			></path>
-			<path d="M20 20L19 19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-			></path>
-			<path d="M20 4L19 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-			></path>
-			<path d="M4 20L5 19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-			></path>
-			<path d="M4 4L5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-			></path>
-			<path d="M1 12L2 12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-			></path>
+			<!-- Center circle -->
+			<circle cx="12" cy="12" r="4.5"></circle>
+			<!-- Rays — 8 short dots around the circle -->
+			<line x1="12" y1="2" x2="12" y2="4.5" stroke-linecap="round"></line>
+			<line x1="12" y1="19.5" x2="12" y2="22" stroke-linecap="round"></line>
+			<line x1="2" y1="12" x2="4.5" y2="12" stroke-linecap="round"></line>
+			<line x1="19.5" y1="12" x2="22" y2="12" stroke-linecap="round"></line>
+			<line x1="4.93" y1="4.93" x2="6.64" y2="6.64" stroke-linecap="round"></line>
+			<line x1="17.36" y1="17.36" x2="19.07" y2="19.07" stroke-linecap="round"></line>
+			<line x1="19.07" y1="4.93" x2="17.36" y2="6.64" stroke-linecap="round"></line>
+			<line x1="6.64" y1="17.36" x2="4.93" y2="19.07" stroke-linecap="round"></line>
 		</svg>
+		<!-- Moon icon (shown in dark mode) -->
 		<svg
 			aria-hidden="true"
-			class="absolute start-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all dark:scale-100 dark:opacity-100"
+			class="icon icon-moon absolute inset-0 m-auto scale-0 opacity-0 dark:scale-100 dark:opacity-100"
 			fill="none"
 			focusable="false"
 			id="moon-svg"
 			stroke="currentColor"
-			stroke-width="1.5"
+			stroke-width="1.25"
 			viewBox="0 0 24 24"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<path d="M0 0h24v24H0z" fill="none" stroke="none"></path>
-			<path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"
+			<path
+				d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"
+				stroke-linecap="round"
+				stroke-linejoin="round"
 			></path>
-			<path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2"></path>
-			<path d="M19 11h2m-1 -1v2"></path>
 		</svg>
 	</button>
-	<span class="chicken-text chicken-text-right dark:hidden"></span>
 </theme-toggle>
 
 <script>
-	// Note that if you fire the theme-change event outside of this component, it will not be reflected in the button's aria-checked attribute. You will need to add an event listener if you want that.
 	import { rootInDarkMode } from "@/utils/domElement";
 
 	class ThemeToggle extends HTMLElement {
 		connectedCallback() {
 			const button = this.querySelector<HTMLButtonElement>("button")!;
-			// set aria role value
 			button.setAttribute("role", "switch");
 			button.setAttribute("aria-checked", String(rootInDarkMode()));
 
-			// button event
 			button.addEventListener("click", () => {
-				// invert theme
 				let themeChangeEvent = new CustomEvent("theme-change", {
 					detail: {
 						theme: rootInDarkMode() ? "light" : "dark",
 					},
 				});
-				// dispatch event -> ThemeProvider.astro
 				document.dispatchEvent(themeChangeEvent);
-
-				// set the aria-checked attribute
 				button.setAttribute("aria-checked", String(rootInDarkMode()));
 			});
 		}
@@ -83,3 +73,28 @@
 
 	customElements.define("theme-toggle", ThemeToggle);
 </script>
+
+<style>
+	.icon-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		border-radius: 0.375rem;
+		color: var(--academia-muted-fg);
+		transition: color 200ms ease, transform 200ms ease;
+		position: relative;
+	}
+
+	.icon-btn:hover {
+		color: var(--academia-brass);
+		transform: scale(1.1);
+	}
+
+	.icon {
+		width: 1.2rem;
+		height: 1.2rem;
+		transition: transform 300ms ease, opacity 300ms ease;
+	}
+</style>

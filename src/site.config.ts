@@ -16,9 +16,9 @@ export const siteConfig: SiteConfig = {
 	// Used as the default description meta property and webmanifest description
 	description: "Faust",
 	// HTML lang property, found in src/layouts/Base.astro L:18 & astro.config.ts L:48
-	lang: "zh-CN",
+	lang: "en",
 	// Meta property, found in src/components/BaseHead.astro L:42
-	ogLocale: "zh-CN",
+	ogLocale: "en_US",
 	// Used to construct the meta title property found in src/components/BaseHead.astro L:11, and webmanifest name found in astro.config.ts L:42
 	title: "Faust",
 	// Used to generate deployment URLs
@@ -50,13 +50,23 @@ export const menuLinks: { path: string; title: string }[] = [
 export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
 	styleOverrides: {
 		borderRadius: "4px",
+		borderColor: "hsl(var(--theme-border))",
 		codeFontFamily:
-			'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;',
+			'"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;',
 		codeFontSize: "0.875rem",
 		codeLineHeight: "1.7142857rem",
 		codePaddingInline: "1rem",
+		codeBackground: "var(--academia-bg-alt)",
 		frames: {
 			frameBoxShadowCssValue: "none",
+			editorActiveTabBackground: "var(--academia-bg-alt)",
+			editorActiveTabForeground: "hsl(var(--theme-text))",
+			editorTabBarBackground: "hsl(var(--theme-muted))",
+			editorTabBarBorderBottomColor: "hsl(var(--theme-border))",
+			terminalBackground: "var(--academia-bg-alt)",
+			terminalTitlebarBackground: "hsl(var(--theme-muted))",
+			terminalTitlebarBorderBottomColor: "hsl(var(--theme-border))",
+			tooltipSuccessBackground: "var(--academia-brass)",
 		},
 		uiLineHeight: "inherit",
 	},
@@ -72,6 +82,6 @@ export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
 		return `[data-theme="${theme.name}"]`;
 	},
 	// One dark, one light theme => https://expressive-code.com/guides/themes/#available-themes
-	themes: ["dracula", "github-light"],
+	themes: ["vitesse-dark", "vitesse-light"],
 	useThemedScrollbars: false,
 };

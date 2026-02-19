@@ -10,7 +10,6 @@ import { Icon } from "astro-icon/components";
 export const prerender = true;
 
 export const getStaticPaths = (async ({ paginate }) => {
-	// 修改：每页显示文章数，最多标签数
 	const MAX_POSTS_PER_PAGE = 12;
 	const MAX_TAGS = 7;
 	const allPosts = await getAllPosts();
@@ -30,7 +29,6 @@ const { page, uniqueTags } = Astro.props;
 
 const meta = {
 	description: "点点滴滴，江河湖海",
-	// 修改：博客
 	title: "博客",
 };
 
@@ -55,26 +53,24 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 
 <PageLayout meta={meta}>
 	<section class="mb-12">
-		<div class="mb-6 flex items-center gap-4">
-			<span class="h-px flex-1 bg-border"></span>
-			<span class="font-mono text-base font-medium uppercase tracking-[0.15em] text-accent">
+		<div class="mb-8 flex items-center gap-4">
+			<span class="ornate-divider flex-1"></span>
+			<span class="font-display text-xs font-medium uppercase tracking-[0.25em] text-accent engraved">
 				博客 <a class="inline-block" href="/rss.xml" target="_blank" aria-label="RSS Feed">
-					<Icon aria-hidden="true" class="h-4 w-4 align-top" focusable="false" name="mdi:rss" />
+					<Icon aria-hidden="true" class="h-3 w-3 align-middle" focusable="false" name="mdi:rss" />
 				</a>
 			</span>
-			<span class="h-px flex-1 bg-border"></span>
+			<span class="ornate-divider flex-1"></span>
 		</div>
 	</section>
 	<div class="grid gap-y-16 sm:grid-cols-[3fr_1fr] sm:gap-x-8">
-		<section aria-label="Blog post list">
+		<section aria-label="Blog post list" class="mt-6 space-y-4">
 			{
 				descYearKeys.map((yearKey) => (
 					<>
-						{/* 修改：注释博客按年分类 */}
-						{/* <h2 class="title text-lg">{yearKey}</h2> */}
-						<ul class="mb-16 mt-2 space-y-4 text-start">
+						<ul class="space-y-4 text-start">
 							{groupedByYear[yearKey]?.map((p) => (
-								<li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
+							<li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2 border-b border-border pb-4 transition-colors duration-300 hover:border-accent/20">
 									<PostPreview post={p} />
 								</li>
 							))}
@@ -87,12 +83,11 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 		{
 			!!uniqueTags.length && (
 				<aside>
-					<h2 class="title mb-4 flex items-center gap-2 text-lg">
-						{/* 修改：标签侧边栏 */}
+					<h2 class="mb-4 flex items-center gap-2 font-heading text-lg font-normal text-accent-2">
 						标签
 						<svg
 							aria-hidden="true"
-							class="h-6 w-6"
+							class="h-4 w-4 text-accent"
 							fill="none"
 							stroke="currentColor"
 							stroke-linecap="round"
@@ -112,7 +107,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 							<li>
 								<a
 									aria-label={`关于 ${tag} 的全部`}
-									class="cactus-link flex items-center justify-center"
+									class="cactus-link font-display text-[10px] uppercase tracking-[0.15em] flex items-center justify-center"
 									href={`/tags/${tag}/`}
 								>
 									#{tag}
@@ -121,7 +116,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 						))}
 					</ul>
 					<span class="mt-4 block sm:text-end">
-						<a aria-label="View all blog categories" class="sm:hover:text-link" href="/tags/">
+						<a aria-label="View all blog categories" class="font-display text-xs uppercase tracking-[0.2em] text-mutedFg transition-all duration-300 hover:text-accent hover:tracking-[0.25em]" href="/tags/">
 							其他 →
 						</a>
 					</span>

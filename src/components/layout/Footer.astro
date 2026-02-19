@@ -8,26 +8,28 @@ const currentLocale = getLocaleFromPath(currentPath);
 const menuLinks = getMenuLinks(currentLocale);
 ---
 
-<footer
-	class="mt-auto flex w-full flex-col items-center justify-center gap-y-2 pb-4 pt-20 text-center align-top font-semibold text-gray-600 dark:text-gray-400 sm:flex-row sm:justify-between sm:text-xs"
->
-	<div class="me-0 sm:me-4">
-		&copy; {siteConfig.author}
-		<!-- 修改 -->
-		<!-- {year}.<span class="inline-block">&nbsp;🚀&nbsp;Astro Cactus</span> -->
-		{year}
-	</div>
-	<nav
-		aria-label="More on this site"
-		class="flex gap-x-2 sm:gap-x-0 sm:divide-x sm:divide-gray-500"
-	>
-		{
-			menuLinks.map((link) => (
-				<a class="px-4 py-2 sm:py-0 sm:hover:text-textColor sm:hover:underline" href={link.path}>
-					{link.title}
-				</a>
-			))
-		}
-	</nav>
-</footer>
+<footer class="mt-auto w-full pt-20 pb-4">
+	<!-- Ornate divider above footer -->
+	<div class="ornate-divider-full mb-8" aria-hidden="true"></div>
 
+	<div class="flex w-full flex-col items-center justify-center gap-y-3 text-center sm:flex-row sm:justify-between">
+		<div class="font-body text-sm text-mutedFg">
+			&copy; {siteConfig.author} {year}
+		</div>
+		<nav
+			aria-label="More on this site"
+			class="flex gap-x-1 sm:gap-x-0 sm:divide-x sm:divide-border"
+		>
+			{
+				menuLinks.map((link) => (
+					<a
+						class="px-3 py-2 font-display text-[10px] uppercase tracking-[0.2em] text-mutedFg transition-all duration-300 hover:text-accent hover:tracking-[0.25em] sm:py-0"
+						href={link.path}
+					>
+						{link.title}
+					</a>
+				))
+			}
+		</nav>
+	</div>
+</footer>

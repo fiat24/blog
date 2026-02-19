@@ -6,16 +6,22 @@ import "@/styles/global.css";
 
 type Props = SiteMeta;
 
+/* Academia Fonts */
+import "@fontsource/cormorant-garamond/400.css";
+import "@fontsource/cormorant-garamond/400-italic.css";
+import "@fontsource/cormorant-garamond/500.css";
+import "@fontsource/cormorant-garamond/600.css";
+import "@fontsource/crimson-pro/400.css";
+import "@fontsource/crimson-pro/400-italic.css";
+import "@fontsource/crimson-pro/600.css";
+import "@fontsource/cinzel/500.css";
+import "@fontsource/cinzel/600.css";
+
+/* Keep mono for code blocks */
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
-import "@fontsource/playfair-display/400.css";
-import "@fontsource/playfair-display/400-italic.css";
-import "@fontsource/playfair-display/600.css";
-import "@fontsource/playfair-display/700.css";
-import "@fontsource/source-sans-3/300.css";
-import "@fontsource/source-sans-3/400.css";
-import "@fontsource/source-sans-3/400-italic.css";
-import "@fontsource/source-sans-3/600.css";
+
+/* LXGW WenKai for Chinese — loaded via CDN */
 
 const { articleDate, description, ogImage, title } = Astro.props;
 
@@ -28,6 +34,10 @@ const socialImageURL = new URL(ogImage ? ogImage : "/arch.jpg", Astro.url).href;
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 <title>{siteTitle}</title>
+
+{/* LXGW WenKai Chinese Font */}
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" />
 
 {/* Icons */}
 <link href="https://roim-picx-9nr.pages.dev/rest/a3LwEmK.png" rel="icon" type="image/avif" />
@@ -52,7 +62,7 @@ const socialImageURL = new URL(ogImage ? ogImage : "/arch.jpg", Astro.url).href;
 <meta content={siteConfig.author} name="author" />
 
 {/* Theme Colour */}
-<meta content="" name="theme-color" />
+<meta content="#1C1714" name="theme-color" />
 
 {/* Open Graph / Facebook */}
 <meta content={articleDate ? "article" : "website"} property="og:type" />

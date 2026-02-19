@@ -13,7 +13,6 @@ export const prerender = true;
 const locale = "en";
 
 export const getStaticPaths = (async ({ paginate }) => {
-	// 辅助函数
 	function getUniqueTags(posts: CollectionEntry<"postEn">[]) {
 		const tags = posts.flatMap((post) => post.data.tags);
 		return [...new Set(tags)];
@@ -72,25 +71,25 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 
 <PageLayout meta={meta}>
 	<section class="mb-12">
-		<div class="mb-6 flex items-center gap-4">
-			<span class="h-px flex-1 bg-border"></span>
-			<span class="font-mono text-base font-medium uppercase tracking-[0.15em] text-accent">
+		<div class="mb-8 flex items-center gap-4">
+			<span class="ornate-divider flex-1"></span>
+			<span class="font-display text-xs font-medium uppercase tracking-[0.25em] text-accent engraved">
 				Blog <a class="inline-block" href="/rss.xml" target="_blank" aria-label="RSS Feed">
-					<Icon aria-hidden="true" class="h-4 w-4 align-top" focusable="false" name="mdi:rss" />
+					<Icon aria-hidden="true" class="h-3 w-3 align-middle" focusable="false" name="mdi:rss" />
 				</a>
 			</span>
-			<span class="h-px flex-1 bg-border"></span>
+			<span class="ornate-divider flex-1"></span>
 		</div>
 	</section>
 	
 	{page.data.length > 0 ? (
 		<div class="grid gap-y-16 sm:grid-cols-[3fr_1fr] sm:gap-x-8">
-			<section aria-label="Blog post list">
+			<section aria-label="Blog post list" class="mt-6 space-y-4">
 				{descYearKeys.map((yearKey) => (
 					<>
-						<ul class="mb-16 mt-2 space-y-4 text-start">
-							{groupedByYear[yearKey]?.map((p) => (
-								<li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
+						<ul class="space-y-4 text-start">
+						{groupedByYear[yearKey]?.map((p) => (
+							<li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2 border-b border-border pb-4 transition-colors duration-300 hover:border-accent/20">
 									<PostPreview post={p} basePath="/en/posts" />
 								</li>
 							))}
@@ -101,11 +100,11 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 			</section>
 			{!!uniqueTags.length && (
 				<aside>
-					<h2 class="title mb-4 flex items-center gap-2 text-lg">
+					<h2 class="mb-4 flex items-center gap-2 font-heading text-lg font-normal text-accent-2">
 						Tags
 						<svg
 							aria-hidden="true"
-							class="h-6 w-6"
+							class="h-4 w-4 text-accent"
 							fill="none"
 							stroke="currentColor"
 							stroke-linecap="round"
@@ -125,7 +124,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 							<li>
 								<a
 									aria-label={`All posts about ${tag}`}
-									class="cactus-link flex items-center justify-center"
+									class="cactus-link font-display text-[10px] uppercase tracking-[0.15em] flex items-center justify-center"
 									href={`/en/tags/${tag}/`}
 								>
 									#{tag}
@@ -134,7 +133,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 						))}
 					</ul>
 					<span class="mt-4 block sm:text-end">
-						<a aria-label="View all blog categories" class="sm:hover:text-link" href="/en/tags/">
+						<a aria-label="View all blog categories" class="font-display text-xs uppercase tracking-[0.2em] text-mutedFg transition-all duration-300 hover:text-accent hover:tracking-[0.25em]" href="/en/tags/">
 							More →
 						</a>
 					</span>
@@ -142,7 +141,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 			)}
 		</div>
 	) : (
-		<p class="text-muted-foreground italic">
+		<p class="font-body italic text-mutedFg">
 			No translated posts available yet. Posts will be automatically translated during the next build.
 		</p>
 	)}
