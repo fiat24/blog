@@ -43,7 +43,7 @@ const notePath = locale === "en" ? `/en/notes/${note.id}/` : `/notes/${note.id}/
 		date={note.data.publishDate}
 	/>
 	<div
-		class="prose prose-sm prose-cactus mt-4 max-w-none [&>p:last-of-type]:mb-0"
+		class="prose prose-lg prose-cactus mt-4 max-w-none [&>p:last-of-type]:mb-0"
 		class:list={{ "line-clamp-6": isPreview }}
 	>
 		<Content />

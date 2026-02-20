@@ -8,7 +8,7 @@ const currentLocale = getLocaleFromPath(currentPath);
 const menuLinks = getMenuLinks(currentLocale);
 ---
 
-<footer class="mt-auto w-full pt-20 pb-4">
+<footer class="mt-auto w-full pt-12 pb-4">
 	<!-- Ornate divider above footer -->
 	<div class="ornate-divider-full mb-8" aria-hidden="true"></div>
 
@@ -23,7 +23,7 @@ const menuLinks = getMenuLinks(currentLocale);
 			{
 				menuLinks.map((link) => (
 					<a
-						class="px-3 py-2 font-display text-[10px] uppercase tracking-[0.2em] text-mutedFg transition-all duration-300 hover:text-accent hover:tracking-[0.25em] sm:py-0"
+						class="px-3 py-2 font-display text-xs uppercase tracking-[0.2em] text-mutedFg transition-all duration-300 hover:text-accent hover:tracking-[0.25em] sm:py-0"
 						href={link.path}
 					>
 						{link.title}

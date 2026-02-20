@@ -5,12 +5,18 @@ import type { HTMLAttributes } from "astro/types";
 type Props = HTMLAttributes<"time"> & {
 	date: Date;
 	dateTimeOptions?: Intl.DateTimeFormatOptions;
+	locale?: string;
 };
 
-const { date, dateTimeOptions, ...attrs } = Astro.props;
+const { date, dateTimeOptions, locale: propLocale, ...attrs } = Astro.props;
 
-const postDate = getFormattedDate(date, dateTimeOptions);
+// Auto-detect locale from URL path if not explicitly provided
+const isEnglish = Astro.url.pathname.startsWith("/en/") || Astro.url.pathname === "/en";
+const locale = propLocale || (isEnglish ? "en-US" : undefined);
+
+const postDate = getFormattedDate(date, dateTimeOptions, locale);
 const ISO = date.toISOString();
 ---
 
 <time datetime={ISO} title={ISO} {...attrs}>{postDate}</time>
+

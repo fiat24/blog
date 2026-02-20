@@ -251,21 +251,12 @@
 		0 4px 12px rgba(201, 169, 98, 0.3);
 }
 
-/* --- Drop Cap --- */
+/* --- Drop Cap (color only, no enlargement) --- */
 .drop-cap::first-letter {
-	font-family: "Cinzel", serif;
-	font-size: 4.5rem;
-	float: left;
-	line-height: 0.8;
-	margin-right: 0.75rem;
-	margin-top: 0.1rem;
 	color: var(--academia-brass);
-	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-:root[data-theme="light"] .drop-cap::first-letter {
-	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
-}
+
 
 /* --- Wax Seal Badge --- */
 .wax-seal {

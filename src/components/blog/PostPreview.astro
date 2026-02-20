@@ -13,13 +13,13 @@ const { as: Tag = "div", post, withDesc = false, basePath = "/posts" } = Astro.p
 ---
 
 <FormattedDate
-	class="min-w-[120px] font-display text-[10px] uppercase tracking-[0.2em] text-mutedFg"
+	class="min-w-[120px] font-display text-xs uppercase tracking-[0.2em] text-mutedFg"
 	date={post.data.publishDate}
 />
 <Tag class="flex items-center justify-between gap-4">
 	<div class="flex items-center gap-2">
 		{post.data.draft && <span class="text-crimson">(Draft) </span>}
-		<a class="font-heading text-lg text-textColor underline-offset-4 transition-all duration-300 hover:text-accent hover:underline decoration-accent/50" data-astro-prefetch href={`${basePath}/${post.id}/`}>
+		<a class="font-heading text-xl text-textColor underline-offset-4 transition-all duration-300 hover:text-accent hover:underline decoration-accent/50" data-astro-prefetch href={`${basePath}/${post.id}/`}>
 			{post.data.title}
 		</a>
 	</div>
@@ -27,7 +27,7 @@ const { as: Tag = "div", post, withDesc = false, basePath = "/posts" } = Astro.p
 		post.data.tags && (
 			<div class="hidden sm:flex items-center gap-2">
 				{post.data.tags.slice(0, 3).map((tag) => (
-					<span class="font-display text-[10px] uppercase tracking-[0.2em] text-mutedFg/60 transition-colors hover:text-accent">
+					<span class="font-display text-xs uppercase tracking-[0.2em] text-mutedFg/60 transition-colors hover:text-accent">
 						#{tag}
 					</span>
 				))}

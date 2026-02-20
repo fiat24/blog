@@ -16,7 +16,7 @@ const homeHref = currentLocale === "en" ? "/en/" : "/";
 	<div class="flex sm:flex-col">
 		<a
 			aria-current={Astro.url.pathname === homeHref ? "page" : false}
-			class="inline-flex items-center transition-transform duration-300 hover:scale-105 sm:relative sm:inline-block"
+			class="inline-flex items-center sm:relative sm:inline-block"
 			href={homeHref}
 		>
 			<!-- Avatar with tooltip -->
@@ -35,7 +35,7 @@ const homeHref = currentLocale === "en" ? "/en/" : "/";
 					they're persistent.
 				</span>
 			</div>
-			<span class="font-heading text-xl font-normal tracking-tight text-accent sm:text-2xl engraved">Faust</span>
+			<span class="font-heading text-xl font-normal tracking-tight text-accent sm:text-2xl engraved me-4">Faust</span>
 		</a>
 		<nav
 			aria-label="Main menu"
@@ -47,7 +47,7 @@ const homeHref = currentLocale === "en" ? "/en/" : "/";
 					<a
 						aria-current={Astro.url.pathname === link.path ? "page" : false}
 						class:list={[
-							"px-4 py-4 font-display text-xs uppercase tracking-[0.2em] transition-all duration-300 sm:py-0",
+							"px-4 py-4 font-display text-sm uppercase tracking-[0.2em] transition-all duration-300 sm:py-0",
 							Astro.url.pathname === link.path
 								? "text-accent"
 								: "text-mutedFg hover:text-accent hover:tracking-[0.25em]",
