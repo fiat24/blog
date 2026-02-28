@@ -13,27 +13,35 @@ const postName = pathname?.split("/").pop();
 <meta property={`og:${postName}`} />
 <div id="giscus-container" class="mt-8 w-full"></div>
 <script>
-	const {
-		giscus_repo = "",
-		giscus_repo_id = "",
-		giscus_category_id = "",
-		giscus_lang,
-	} = (document.querySelector("#giscus-meta") as HTMLAnchorElement).dataset;
+	function initGiscus() {
+		const meta = document.querySelector("#giscus-meta") as HTMLElement;
+		if (!meta) return;
 
-	function sendMessage(message: Object) {
-		const iframe = document.querySelector("iframe.giscus-frame") as HTMLIFrameElement;
-		if (!iframe || !iframe.contentWindow) return;
-		iframe.contentWindow.postMessage({ giscus: message }, "https://giscus.app");
-	}
+		const {
+			giscus_repo = "",
+			giscus_repo_id = "",
+			giscus_category_id = "",
+			giscus_lang,
+		} = meta.dataset;
 
-	function getCurrentTheme() {
-		const theme =
-			document.firstElementChild && document.firstElementChild.getAttribute("data-theme");
-		return theme;
-	}
+		function sendMessage(message: Object) {
+			const iframe = document.querySelector("iframe.giscus-frame") as HTMLIFrameElement;
+			if (!iframe || !iframe.contentWindow) return;
+			iframe.contentWindow.postMessage({ giscus: message }, "https://giscus.app");
+		}
 
-	function createGiscusScript() {
+		function getCurrentTheme() {
+			const theme =
+				document.firstElementChild && document.firstElementChild.getAttribute("data-theme");
+			return theme;
+		}
+
 		const container = document.querySelector("#giscus-container");
+		if (!container) return;
+
+		// Clear previous Giscus instance (for Client Router navigations)
+		container.innerHTML = "";
+
 		const theme = getCurrentTheme() == "light" ? "light" : "dark_dimmed";
 		let script = document.createElement("script");
 		script.src = "https://giscus.app/client.js";
@@ -51,14 +59,16 @@ const postName = pathname?.split("/").pop();
 		script.setAttribute("data-loading", "lazy");
 		script.setAttribute("crossorigin", "anonymous");
 		script.async = true;
-		container && container.appendChild(script);
+		container.appendChild(script);
+
+		document.querySelector("#theme-btn")?.addEventListener("click", () => {
+			const theme = getCurrentTheme();
+			sendMessage({
+				setConfig: { theme: theme == "light" ? "dark_dimmed" : "light" },
+			});
+		});
 	}
 
-	createGiscusScript();
-	document.querySelector("#theme-btn")?.addEventListener("click", () => {
-		const theme = getCurrentTheme();
-		sendMessage({
-			setConfig: { theme: theme == "light" ? "dark_dimmed" : "light" },
-		});
-	});
+	// Run on every navigation (including Client Router soft navigations)
+	document.addEventListener("astro:page-load", initGiscus);
 </script>

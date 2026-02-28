@@ -36,29 +36,29 @@
 	/* Academia / Classical — Dark theme */
 	:root[data-theme="dark"] {
 		color-scheme: dark;
-		/* Deep Mahogany */
-		--theme-bg: 18 17% 9%;
-		/* Antique Parchment */
-		--theme-text: 30 28% 87%;
+		/* Ink Blue-Gray */
+		--theme-bg: 220 16% 12%;
+		/* Warm Parchment */
+		--theme-text: 36 20% 85%;
 		/* Polished Brass */
 		--theme-link: 40 47% 59%;
 		--theme-accent: 40 47% 59%;
 		/* Parchment for headings */
-		--theme-accent-2: 30 28% 87%;
+		--theme-accent-2: 36 20% 88%;
 		--theme-quote: 40 47% 59%;
-		/* Wood Grain */
-		--theme-border: 27 17% 25%;
-		/* Worn Leather */
-		--theme-muted: 22 18% 20%;
+		/* Slate border */
+		--theme-border: 215 12% 25%;
+		/* Muted slate */
+		--theme-muted: 218 14% 18%;
 
 		/* Extended Academia tokens */
-		--academia-bg-alt: #251E19;
-		--academia-muted-fg: #9C8B7A;
+		--academia-bg-alt: #1A1F28;
+		--academia-muted-fg: #8A94A3;
 		--academia-crimson: #8B2635;
 		--academia-brass: #C9A962;
 		--academia-brass-light: #D4B872;
 		--academia-brass-dark: #B8953F;
-		--academia-ornate-bg: #1C1714;
+		--academia-ornate-bg: #161A22;
 	}
 }
 
