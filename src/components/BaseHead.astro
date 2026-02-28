@@ -35,9 +35,10 @@ const socialImageURL = new URL(ogImage ? ogImage : "/arch.jpg", Astro.url).href;
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 <title>{siteTitle}</title>
 
-{/* LXGW WenKai Chinese Font */}
+{/* LXGW WenKai Chinese Font — async load to avoid render-blocking */}
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" />
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" /></noscript>
 
 {/* Icons */}
 <link href="https://roim-picx-9nr.pages.dev/rest/a3LwEmK.png" rel="icon" type="image/avif" />

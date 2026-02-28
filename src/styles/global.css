@@ -66,7 +66,7 @@
    ACADEMIA CUSTOM STYLES
    ═══════════════════════════════════════════ */
 
-/* --- Paper Texture Overlay --- */
+/* --- Paper Texture Overlay (CSS noise, no SVG filter) --- */
 .academia-texture {
 	position: fixed;
 	inset: 0;
@@ -74,11 +74,9 @@
 	pointer-events: none;
 	opacity: 0.03;
 	mix-blend-mode: overlay;
-}
-
-.academia-texture svg {
-	width: 100%;
-	height: 100%;
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAElBMVEUAAAAAAAAAAAAAAAAAAAAAAADgKxmiAAAABnRSTlMFCA0RFhsM/q0bAAAAiElEQVQ4y73SQQ6AIAwE0IFeQOP9r+rCBSwuJCb+jcN0pgVALMu48lnjKqNRaSqKVNNqkFVPNS0DY0a0Bl0wnNFj0Q3D1KZGJ0zBsD02bffghOG2Cpt5hkYkghC3GN3bN5MJ0zAs3Ej0YHjl89/ID/AvcAd0bxDP5nv4bjBvEN4jvEL4hnAN8R+/B0x6AXfkwubrAAAAAElFTkSuQmCC");
+	background-repeat: repeat;
+	background-size: 48px 48px;
 }
 
 /* --- Vignette Effect (dark mode only) --- */
@@ -191,22 +189,16 @@
 /* --- Ornate Divider (simple line, used flanking text) --- */
 .ornate-divider {
 	height: 1px;
-	background: linear-gradient(90deg,
-			transparent 0%,
-			hsl(var(--theme-border)) 40%,
-			var(--academia-brass) 100%);
+	background: var(--academia-brass);
+	opacity: 0.4;
 }
 
 /* --- Ornate Divider Full (standalone with centered glyph) --- */
 .ornate-divider-full {
 	position: relative;
 	height: 1px;
-	background: linear-gradient(90deg,
-			transparent 0%,
-			hsl(var(--theme-border)) 20%,
-			var(--academia-brass) 50%,
-			hsl(var(--theme-border)) 80%,
-			transparent 100%);
+	background: var(--academia-brass);
+	opacity: 0.4;
 }
 
 .ornate-divider-full::before {
@@ -220,6 +212,7 @@
 	background: hsl(var(--theme-bg));
 	padding: 0 12px;
 	line-height: 1;
+	opacity: 1;
 }
 
 /* --- Engraved Text Effect --- */

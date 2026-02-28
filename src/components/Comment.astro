@@ -1,7 +1,6 @@
 ---
 const pathname = decodeURIComponent(Astro.url.pathname || ""); //解码
 const postName = pathname?.split("/").pop();
-const { GISCUS_REPO, GISCUS_REPO_ID, GISCUS_CATEGORY_ID, GISCUS_lang } = import.meta.env;
 ---
 
 <meta
@@ -12,6 +11,7 @@ const { GISCUS_REPO, GISCUS_REPO_ID, GISCUS_CATEGORY_ID, GISCUS_lang } = import.
 	id="giscus-meta"
 />
 <meta property={`og:${postName}`} />
+<div id="giscus-container" class="mt-8 w-full"></div>
 <script>
 	const {
 		giscus_repo = "",
@@ -32,8 +32,8 @@ const { GISCUS_REPO, GISCUS_REPO_ID, GISCUS_CATEGORY_ID, GISCUS_lang } = import.
 		return theme;
 	}
 
-	function createGusicScript() {
-		const container = document.querySelector("#main-content");
+	function createGiscusScript() {
+		const container = document.querySelector("#giscus-container");
 		const theme = getCurrentTheme() == "light" ? "light" : "dark_dimmed";
 		let script = document.createElement("script");
 		script.src = "https://giscus.app/client.js";
@@ -54,7 +54,7 @@ const { GISCUS_REPO, GISCUS_REPO_ID, GISCUS_CATEGORY_ID, GISCUS_lang } = import.
 		container && container.appendChild(script);
 	}
 
-	createGusicScript();
+	createGiscusScript();
 	document.querySelector("#theme-btn")?.addEventListener("click", () => {
 		const theme = getCurrentTheme();
 		sendMessage({

@@ -1,6 +1,6 @@
 ---
 import { type CollectionEntry, render } from "astro:content";
-import Comments from "@/components/Comment";
+import Comments from "@/components/Comment.astro";
 import Masthead from "@/components/blog/Masthead.astro";
 import TOC from "@/components/blog/TOC.astro";
 import WebMentions from "@/components/blog/webmentions/index.astro";
@@ -38,6 +38,7 @@ const { headings } = await render(post);
 			</div>
 		</article>
 	</div>
+	<Comments />
 	<button
 		aria-label="Back to Top"
 		class="z-90 fixed bottom-8 end-4 flex h-10 w-10 translate-y-28 items-center justify-center rounded border-2 border-transparent opacity-0 transition-all duration-500 btn-brass data-[show=true]:translate-y-0 data-[show=true]:opacity-100 sm:end-8 sm:h-12 sm:w-12"
@@ -57,8 +58,6 @@ const { headings } = await render(post);
 		</svg>
 	</button>
 </BaseLayout>
-<!-- 使用 client:only 指令 -->
-<Comments client:only="react" />
 <script>
 	const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
 	const targetHeader = document.getElementById("blog-hero") as HTMLDivElement;

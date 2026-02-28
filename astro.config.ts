@@ -23,7 +23,7 @@ import rehypeUnwrapImages from "rehype-unwrap-images";
 import decapCmsOauth from "astro-decap-cms-oauth";
 import { astroTranslate } from "./src/integrations/astro-translate";
 
-import react from "@astrojs/react";
+
 
 // https://astro.build/config
 export default defineConfig({
@@ -76,7 +76,7 @@ export default defineConfig({
             insertThemeColorMeta: false,
             insertManifestLink: false,
         },
-    }), decapCmsOauth(), react(), astroTranslate()],
+    }), decapCmsOauth(), astroTranslate()],
     markdown: {
         rehypePlugins: [
             [
@@ -99,7 +99,7 @@ export default defineConfig({
     // https://docs.astro.build/en/guides/prefetch/
     prefetch: {
         defaultStrategy: 'viewport',
-        prefetchAll: true
+        prefetchAll: false
     },
     // ! 改为你的网站地址，不然社交图片无法加载
     site: siteConfig.url,
