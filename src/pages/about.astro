@@ -1,85 +1,156 @@
 ---
 import PageLayout from "@/layouts/Base.astro";
 import SocialList from "@/components/SocialList.astro";
-import FriendList from "@/components/FriendList.astro";
+import friends from "@/data/friendLinks.json";
 export const prerender = true;
 
 const meta = {
 	description: "关于 Faust",
 	title: "关于",
 };
+
+// 不规则散点，避免重叠；友链数超过槽位数时会复用槽位，可在此追加坐标
+const slots: [number, number][] = [
+	[12, 22], [78, 12], [28, 48], [88, 58], [8, 78], [52, 85], [65, 38],
+];
+function seeded(name: string, n: number) {
+	const s = name.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+	return ((s * 31 + n * 7) % 100) / 100;
+}
+const linksOnDrawing = friends.map((f, i) => {
+	const r = (n: number) => seeded(f.name, n);
+	const idx = i % slots.length;
+	const [baseLeft, baseTop] = slots[idx];
+	return {
+		...f,
+		left: baseLeft + (r(1) - 0.5) * 6,
+		top: baseTop + (r(2) - 0.5) * 6,
+		rot: -28 + r(3) * 56,
+	};
+});
 ---
 <PageLayout meta={meta}>
-	<section class="mb-12">
-		<div class="mb-8 flex items-center gap-4">
-			<span class="ornate-divider flex-1"></span>
-			<span class="font-display text-sm font-medium uppercase tracking-[0.25em] text-accent engraved">
-				关于
-			</span>
-			<span class="ornate-divider flex-1"></span>
-		</div>
-	</section>
-
-	<div class="grid gap-12 sm:grid-cols-[2fr_1fr]">
-		<div class="prose prose-cactus max-w-none">
-			<p class="drop-cap font-body text-xl leading-relaxed text-textColor/90">
+	<article>
+		<header class="mb-8">
+			<div class="mb-8 flex items-center gap-4">
+				<span class="ornate-divider flex-1"></span>
+				<span class="font-display text-sm font-medium uppercase tracking-[0.25em] text-accent engraved">
+					关于
+				</span>
+				<span class="ornate-divider flex-1"></span>
+			</div>
+			<p class="font-body text-lg font-normal leading-relaxed text-textColor">
 				不管是诗歌、音乐、电影或者小说都和想象力有关。这里是我想象力的切片，一切有关于我对生活的观察、世界的思考在这里都会被文字切割成薄片......
 			</p>
-			
-			<div class="not-prose my-8 ornate-divider-full" aria-hidden="true"></div>
+		</header>
 
-			<div class="space-y-3">
-				<h3 class="font-display text-sm font-medium uppercase tracking-[0.25em] text-accent">
+		<section aria-label="Friend Links" class="mb-8">
+			<div class="mb-8 flex items-center gap-4">
+				<span class="ornate-divider flex-1"></span>
+				<span class="font-display text-sm font-medium uppercase tracking-[0.25em] text-accent engraved">
 					Friend Links
-				</h3>
-				<FriendList />
+				</span>
+				<span class="ornate-divider flex-1"></span>
 			</div>
-		</div>
-
-		<aside class="space-y-8">
-			<div class="space-y-2">
-				<h3 class="mb-2 font-display text-sm font-medium uppercase tracking-[0.25em] text-accent">
-					Connect
-				</h3>
-				<div class="corner-flourish rounded border border-border bg-bgAlt p-4">
-					<SocialList mode="social" />
+			<figure class="about-drawing-figure my-8">
+				<div class="about-drawing-wrap">
+					<img
+						src="/images/about-drawing.png"
+						alt=""
+						class="about-drawing-img"
+						width="900"
+						height="600"
+						loading="lazy"
+						fetchpriority="low"
+					/>
+					<div class="about-drawing-links">
+						{
+							linksOnDrawing.map(({ name, link, left, top, rot }) => (
+								<a
+									href={link}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="about-drawing-link font-display"
+									style={`left: ${left}%; top: ${top}%; transform: translate(-50%, -50%) rotate(${rot}deg);`}
+								>
+									{name}
+								</a>
+							))
+						}
+					</div>
 				</div>
-			</div>
+			</figure>
+		</section>
 
-			<div class="space-y-2">
-				<h3 class="mb-2 font-display text-sm font-medium uppercase tracking-[0.25em] text-accent">
-					Made up
-				</h3>
-				<ul class="space-y-3">
-					<li class="flex items-center gap-3 text-mutedFg group">
-						<span class="h-px w-6 bg-border group-hover:bg-accent transition-colors duration-300"></span>
-						<span class="font-body group-hover:text-accent transition-colors duration-300">Music</span>
-					</li>
-					<li class="flex items-center gap-3 text-mutedFg group">
-						<span class="h-px w-6 bg-border group-hover:bg-accent transition-colors duration-300"></span>
-						<span class="font-body group-hover:text-accent transition-colors duration-300">Movies</span>
-					</li>
-					<li class="flex items-center gap-3 text-mutedFg group">
-						<span class="h-px w-6 bg-border group-hover:bg-accent transition-colors duration-300"></span>
-						<span class="font-body group-hover:text-accent transition-colors duration-300">Masturbation</span>
-					</li>
-					<li class="flex items-center gap-3 text-mutedFg group">
-						<span class="h-px w-6 bg-border group-hover:bg-accent transition-colors duration-300"></span>
-						<span class="font-body group-hover:text-accent transition-colors duration-300">Majority element</span>
-					</li>
-				</ul>
+		<section aria-label="Connect">
+			<div class="mb-8 flex items-center gap-4">
+				<span class="ornate-divider flex-1"></span>
+				<span class="font-display text-sm font-medium uppercase tracking-[0.25em] text-accent engraved">
+					Connect
+				</span>
+				<span class="ornate-divider flex-1"></span>
 			</div>
-			
-			<div class="relative pl-6">
-				<div class="absolute left-0 top-0 h-full w-px bg-accent"></div>
-				<blockquote class="font-heading italic text-mutedFg text-lg leading-relaxed">
-					"Two souls, alas, are dwelling in my breast."
-				</blockquote>
+			<div class="about-connect inline-flex rounded-md bg-[var(--academia-ornate-bg)]/50 px-3 py-2.5">
+				<SocialList mode="social" />
 			</div>
-			
-			<p class="text-xs text-mutedFg/80 leading-relaxed font-body">
-				如需添加友链，欢迎在 GitHub 提交 <a href="https://github.com/fiat24/blog/blob/main/src/data/friendLinks.json" class="cactus-link" target="_blank" rel="noopener noreferrer">Pull Request</a>，或通过 <a href="mailto:faust@linux.do" class="cactus-link">Email</a> / <a href="https://t.me/micehole_bot" class="cactus-link" target="_blank" rel="noopener noreferrer">Telegram</a> 联系我。
-			</p>
-		</aside>
-	</div>
+		</section>
+	</article>
+	<style>
+		.about-connect :global(svg) {
+			width: 1.75rem;
+			height: 1.75rem;
+		}
+		.about-connect :global(li) {
+			width: 2.25rem;
+			height: 2.25rem;
+		}
+
+		/* 画：铺满中央区域，竖图整体旋转 90° 呈横图（不裁剪），与背景融为一体 */
+		.about-drawing-figure {
+			margin-left: auto;
+			margin-right: auto;
+			width: 100%;
+			max-width: min(900px, 100%);
+		}
+		.about-drawing-wrap {
+			position: relative;
+			width: 100%;
+			aspect-ratio: 3 / 2;
+			overflow: hidden;
+		}
+		.about-drawing-img {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+			transform: translate(-50%, -50%) rotate(90deg);
+			transform-origin: center;
+			opacity: 0.92;
+			mix-blend-mode: multiply;
+		}
+		/* 暗色模式画作融合见 global.css */
+		.about-drawing-links {
+			position: absolute;
+			inset: 0;
+			pointer-events: none;
+		}
+		.about-drawing-link {
+			pointer-events: auto;
+			position: absolute;
+			transform-origin: center;
+			white-space: nowrap;
+			font-size: clamp(0.7rem, 2.2vw, 0.9rem);
+			font-weight: 500;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			color: hsl(var(--theme-accent));
+			text-decoration: none;
+			transition: color 0.2s ease;
+		}
+		.about-drawing-link:hover {
+			color: hsl(var(--theme-accent-2));
+		}
+	</style>
 </PageLayout>

@@ -4,35 +4,21 @@ import friends from "@/data/friendLinks.json";
 interface Friend {
 	name: string;
 	link: string;
-	avatar: string;
+	avatar?: string;
 	description: string;
 }
 ---
 
-<div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
+<div class="flex flex-nowrap items-baseline gap-x-4 overflow-x-auto">
 	{
-		friends.map(({ name, link, avatar, description }) => (
+		friends.map(({ name, link }) => (
 			<a
 				href={link}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="group flex items-center gap-3 rounded-md border border-border/60 bg-white/50 dark:bg-transparent px-3 transition-all hover:bg-muted/50 hover:shadow-sm hover:-translate-y-0.5"
+				class="cactus-link font-display text-xs uppercase tracking-[0.18em] text-accent hover:text-accent-2 whitespace-nowrap"
 			>
-				<img
-					src={avatar}
-					alt={name}
-					class="h-8 w-8 flex-shrink-0 rounded-full bg-muted p-0.5 object-cover border border-border/50 shadow-sm"
-					loading="lazy"
-					onerror={`this.src='https://ui-avatars.com/api/?name=${name}&background=random'`}
-				/>
-				<div class="flex flex-col min-w-0 justify-center">
-					<span class="font-mono text-sm font-medium text-accent truncate group-hover:text-accent/80 transition-colors">
-						{name}
-					</span>
-					<p class="truncate text-xs text-muted-foreground/80 leading-none mt-0.5">
-						{description}
-					</p>
-				</div>
+				{name}
 			</a>
 		))
 	}

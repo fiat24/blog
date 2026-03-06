@@ -4,6 +4,12 @@
 
 @layer base {
 
+	/* Reserve space for scrollbar to prevent layout shift when switching between
+	   short pages (e.g. about) and long pages (index, posts) with View Transitions. */
+	html {
+		scrollbar-gutter: stable;
+	}
+
 	/* Academia / Classical — Light theme */
 	:root,
 	:root[data-theme="light"] {
@@ -65,6 +71,15 @@
 /* ═══════════════════════════════════════════
    ACADEMIA CUSTOM STYLES
    ═══════════════════════════════════════════ */
+
+/* --- About page drawing: dark mode blend with theme background --- */
+:root[data-theme="dark"] .about-drawing-wrap {
+	background-color: hsl(var(--theme-bg));
+}
+:root[data-theme="dark"] .about-drawing-img {
+	mix-blend-mode: multiply;
+	opacity: 0.78;
+}
 
 /* --- Paper Texture Overlay (CSS noise, no SVG filter) --- */
 .academia-texture {
